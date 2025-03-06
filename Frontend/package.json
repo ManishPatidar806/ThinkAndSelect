@@ -1,7 +1,8 @@
 {
-  "engines": {
-    "node": "18.19.1"
-  },
+ "engines": {
+  "node": "18"
+}
+,
   "name": "knowledge-test",
   "private": true,
   "version": "0.0.0",
