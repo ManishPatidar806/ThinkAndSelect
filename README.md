@@ -37,11 +37,8 @@ This project is an innovative quiz application designed to support both practice
 
 ```bash
 # Clone the repository
-git clone [https://github.com/yourusername/quiz-application.git](https://github.com/ManishPatidar806/Think
-AndSelect.git)
+git clone https://github.com/ManishPatidar806/ThinkAndSelect.git
 
-# Navigate to the project directory
-cd quiz-application
 
 # Set up the backend
 cd backend
