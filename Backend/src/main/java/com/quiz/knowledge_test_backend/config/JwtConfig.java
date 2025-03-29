@@ -1,18 +1,19 @@
-package com.quiz.knowledge_test_backend.AuthHelper;
+package com.quiz.knowledge_test_backend.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 
 @Component
-public class AuthHelper {
+public class JwtConfig {
 
-    private  static  final  String SECRET_KEY_STRING = "manishpatidarclassmanishhfahdjkfhdfhkas";
+    private  static  final  String SECRET_KEY_STRING = "manisfdgdtryyydfwetidarclassmaJmanysthrtyreyeyhfahdjkfhdfhkas";
     public final Key SECREAT_KEY = Keys.hmacShaKeyFor(SECRET_KEY_STRING.getBytes());
 
     public String generatToken(String username){
@@ -35,9 +36,7 @@ public class AuthHelper {
 
     public String getName(String token){
         Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(SECREAT_KEY).build().parseClaimsJws(token);
-        String username = claims.getBody().getSubject(); // Assumes username is stored in "sub"
-        System.out.println("Extracted username: " + username);
-        return username;
+        return claims.getBody().getSubject();
     }
 
 }

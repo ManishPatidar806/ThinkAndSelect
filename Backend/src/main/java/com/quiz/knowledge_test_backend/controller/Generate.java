@@ -1,58 +1,77 @@
 package com.quiz.knowledge_test_backend.controller;
 
-import com.quiz.knowledge_test_backend.AuthHelper.AuthHelper;
+
+import com.quiz.knowledge_test_backend.config.JwtConfig;
 import com.quiz.knowledge_test_backend.entity.User;
 import com.quiz.knowledge_test_backend.repository.AuthRepository;
-import io.jsonwebtoken.Jwts;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
-
-import java.io.ByteArrayOutputStream;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
-import java.io.IOException;
-@CrossOrigin(origins = "http://localhost:5173")
+import java.io.*;
+import java.net.URL;
+
+
 @RestController
 public class Generate {
 
     @Autowired
-    AuthRepository authRepository;
+    private AuthRepository authRepository;
+
+    @Autowired
+    private JwtConfig jwtConfig;
+
+
+    @Value("${Certificate.Url}")
+    private String Url;
+
+    @Value("${Font.Url}")
+    private String fontUrl;
 
     @GetMapping("/generate-certificate")
     public ResponseEntity<byte[]> generateCertificate(@RequestHeader(value = "Authorization") String authoString) throws Exception {
 
         if(authoString!=null&&authoString.startsWith("Bearer ")){
             String token  = authoString.substring(7);
-            AuthHelper authHelper = new AuthHelper();
-            if(authHelper.validateToken(token)){
-               String email =  authHelper.getName(token);
+            if (jwtConfig.validateToken(token)) {
+                String email = jwtConfig.getName(token);
 
                User user = authRepository.findByEmail(email);
 
                String username = user.getFullname();
 
-
                 try {
-                    // Load sample PDF
-                    ClassPathResource resource = new ClassPathResource("Certificate.pdf");
-                    File file = resource.getFile();
-                    PDDocument document = Loader.loadPDF(file);
+                    URL url = new URL(Url);
+                    InputStream in = url.openStream();
+                    File tempFile = new File("Certification.pdf");
+                    try (OutputStream out = new FileOutputStream(tempFile)) {
+                        byte[] buffer = new byte[1024];
+                        int length;
+                        while ((length = in.read(buffer)) != -1) {
+                            out.write(buffer, 0, length);
+                        }
+                    }
 
-                    // Replace username in PDF
+                    PDDocument document = Loader.loadPDF(tempFile);
+                    InputStream fontInputStream = new URL(fontUrl).openStream();
+
+
+                    PDFont font = PDType0Font.load(document, fontInputStream);
+
                     PDPage page = document.getPage(0);
                     PDPageContentStream contentStream = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND, true, true);
-                    PDFont font = PDType0Font.load(document, new File("src/main/resources/Fonts/Updock-Regular.ttf"));
                     contentStream.setFont(font, 47f);
                     contentStream.setNonStrokingColor(0.0f, 0.0f, 0.0f);
                     try {

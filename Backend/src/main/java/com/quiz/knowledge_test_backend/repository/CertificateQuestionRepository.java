@@ -10,8 +10,8 @@ import java.util.List;
 public interface CertificateQuestionRepository  extends JpaRepository<CertificateQuestion , Long> {
 
 
-    @Query(value = "SELECT * FROM certificate_question WHERE type=:type ORDER BY RAND() LIMIT 2 ", nativeQuery = true)
-    List<CertificateQuestion> findCertificateQuestion( String type);
+    @Query(value = "SELECT * FROM certificate_question WHERE type=:type ORDER BY RAND() LIMIT 20 ", nativeQuery = true)
+    List<CertificateQuestion> findCertificateQuestion(@Param("type") String type);
 
 
 
