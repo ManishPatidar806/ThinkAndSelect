@@ -15,6 +15,7 @@ const Signup = () => {
       fullname: event.target.fullname.value,
       domain: event.target.domain.value,
       email: event.target.email.value,
+      // role: event.target.role.value,
       place: event.target.place.value,
       password: event.target.password.value,
       confirmPassword: event.target.confirmPassword.value,
@@ -22,7 +23,7 @@ const Signup = () => {
     };
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/signup`,
+        `/path/v1/api/user/signup`,
         {
           method: "POST",
           headers: {
@@ -113,6 +114,17 @@ const Signup = () => {
                   required
                 />
               </div>
+              {/* <div className="mb-4 ">
+                <select
+                  name="role"
+                  className="form-control w-full bg-[#f7f9fc] border-b border-[#dfe7f1] h-10 px-2 placeholder:text-gray-600 "
+                  required
+                >
+                  <option value="">Select Role</option>
+                  <option value="USER">USER</option>
+                  <option value="ADMIN">ADMIN</option>
+                </select>
+              </div> */}
 
               <div className="mb-4">
                 <input

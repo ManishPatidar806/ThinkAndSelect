@@ -20,23 +20,26 @@ const PracticeQuiz = () => {
     const fetchdata = async () => {
       const token = localStorage.getItem("token");
       const type = localStorage.getItem("type");
+      console.log(token);
 
       const response = await fetch(
-        `${
-          import.meta.env.VITE_API_URL
-        }/quiz/practicequestion?type=${encodeURIComponent(type)}`,
+        `/path/v1/api/quiz/question/practicequestion?type=${encodeURIComponent(
+          type
+        )}`,
         {
-          method: "get",
+          method: "GET",
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: token,
           },
         }
       );
-
+      if (!response.ok) {
+        setIsLoading(false);
+        navigate("/home");
+      }
       if (response.ok) {
         const data = await response.json().then((data) => {
-         
-          setQuestion(data);
+          setQuestion(data.questions);
           setIsLoading(false);
         });
       }
@@ -56,21 +59,23 @@ const PracticeQuiz = () => {
     setIsLoading(true);
     const token = localStorage.getItem("token");
     const response = await fetch(
-      `${
-        import.meta.env.VITE_API_URL
-      }/quiz/checkpracticeanswer?answer=${encodeURIComponent(
+      `/path/v1/api/quiz/question/checkpracticeanswer?answer=${encodeURIComponent(
         checked
       )}&id=${encodeURIComponent(currentQuestion?.questionId)}`,
       {
         method: "get",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: token,
         },
       }
     );
+    if (!response.ok) {
+      setIsLoading(false);
+    }
+
     const data = await response.json();
 
-    if (data) {
+    if (data.answer) {
       setMarks((prevMarks) => prevMarks + 1);
     }
 

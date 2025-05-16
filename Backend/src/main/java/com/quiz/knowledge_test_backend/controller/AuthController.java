@@ -1,61 +1,40 @@
 package com.quiz.knowledge_test_backend.controller;
 
-import com.quiz.knowledge_test_backend.Exception.CommonException;
-import com.quiz.knowledge_test_backend.config.JwtConfig;
-import com.quiz.knowledge_test_backend.entity.User;
-
-import com.quiz.knowledge_test_backend.response.AuthResponse;
-
+import com.quiz.knowledge_test_backend.model.request.LoginRequest;
+import com.quiz.knowledge_test_backend.model.request.RegisterRequest;
+import com.quiz.knowledge_test_backend.model.response.AuthResponse;
 import com.quiz.knowledge_test_backend.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/v1/api/user")
 public class AuthController {
 
-@Autowired
-private AuthService authService;
+    private final AuthService authService;
 
-@Autowired
-private JwtConfig jwtConfig;
 
-    @PostMapping("/signup")
-    public ResponseEntity<AuthResponse> signup(@RequestBody User user) throws Exception {
-        User user1 = authService.signUp(user);
-        String token = jwtConfig.generatToken(user1.getEmail());
-          AuthResponse response = new AuthResponse();
-          response.setStatus(true);
-          response.setJwt(token);
-         response.setMessage("Register Successfully..........");
-         response.setFullname(user.getFullname());
-         response.setPlace(user.getPlace());
-         response.setDomain(user.getDomain());
-         response.setDescription(user.getDescription());
-               return new ResponseEntity<>(response , HttpStatus.CREATED);
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody User user) throws Exception {
-       String email = user.getEmail();
-       String password = user.getPassword();
-       if (email==null||password==null){
-           throw new CommonException("Enter valid email or password");
-       }
-       User user1 = authService.login(email,password);
-            String token =jwtConfig.generatToken(email);
-       AuthResponse response = new AuthResponse();
-            response.setStatus(true);
-            response.setMessage("Login Successfully............");
-            response.setJwt(token);
-            response.setFullname(user1 .getFullname());
-            response.setPlace(user1 .getPlace());
-            response.setDomain(user1 .getDomain());
-            response.setDescription(user1 .getDescription());
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@RequestBody @Valid RegisterRequest user) throws Exception {
+        AuthResponse response = authService.signUp(user);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(201));
+    }
 
-        return  new ResponseEntity<>(response ,HttpStatus.ACCEPTED);
+    @PostMapping("/signin")
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequest loginRequest) throws Exception {
+        System.out.println("login is request");
+        AuthResponse response = authService.login(loginRequest);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(200));
     }
 
 

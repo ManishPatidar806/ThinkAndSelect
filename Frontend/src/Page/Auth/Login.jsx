@@ -15,22 +15,19 @@ const Login = () => {
     const data = {
       email: event.target.email.value,
       password: event.target.password.value,
+      // role: event.target.role.value,
     };
 
-    const url = import.meta.env.VITE_API_URL
+    
 
     try {
-    
-      const response = await fetch(
-        `${url}/auth/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch(`/path/v1/api/user/signin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
       if (!response.ok) {
         setIsLoading(false);
@@ -39,19 +36,18 @@ const Login = () => {
       }
 
       const responsedata = await response.json();
-      localStorage.setItem("token", responsedata.jwt);
+      
+      localStorage.setItem("token", `Bearer ${responsedata.jwt}`);
       localStorage.setItem("fullname", responsedata.fullname);
       localStorage.setItem("domain", responsedata.domain);
       localStorage.setItem("place", responsedata.place);
       localStorage.setItem("description", responsedata.description);
-     
+
       if (responsedata.jwt != null) {
-        
-         navigate("/home");
+        navigate("/home");
       } else {
         setIsLoading(false);
         setFlag(true);
-
       }
     } catch (error) {
       setIsLoading(false);
@@ -102,6 +98,19 @@ const Login = () => {
               />
               {flag && <div className="text-red-600">Enter valid Password</div>}
             </div>
+            {/* <div className="mb-4">
+              <select
+                name="role"
+                id="role"
+                className="form-control w-full bg-[#f7f9fc] border-b border-[#dfe7f1] h-10 px-2 placeholder:text-gray-600"
+                required
+              >
+                <option value="">Select Role</option>
+                <option value="USER">USER</option>
+                <option value="ADMIN">ADMIN</option>
+              </select>
+              {flag && <div className="text-red-600">Enter valid Role</div>}
+            </div> */}
             <div className="mb-4">
               <Button
                 className="btn btn-primary w-full text-white py-2 rounded  transition-transform active:translate-y-1 "

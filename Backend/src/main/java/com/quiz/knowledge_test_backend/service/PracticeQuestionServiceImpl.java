@@ -1,57 +1,64 @@
 package com.quiz.knowledge_test_backend.service;
 
-import com.quiz.knowledge_test_backend.entity.PracticeQuestion;
+import com.quiz.knowledge_test_backend.Exception.ResourceNotFoundException;
+import com.quiz.knowledge_test_backend.model.entity.PracticeQuestion;
+import com.quiz.knowledge_test_backend.model.response.AnswerResponse;
+import com.quiz.knowledge_test_backend.model.response.Question;
+import com.quiz.knowledge_test_backend.model.response.QuestionsResponse;
 import com.quiz.knowledge_test_backend.repository.PracticeQuestionRepository;
-import com.quiz.knowledge_test_backend.response.QuestionResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PracticeQuestionServiceImpl implements PracticeQuestionService {
 
-    @Autowired
+
     private PracticeQuestionRepository practiceQuestionRepository;
+
+    public PracticeQuestionServiceImpl(PracticeQuestionRepository practiceQuestionRepository) {
+        this.practiceQuestionRepository = practiceQuestionRepository;
+    }
 
     /*
      * For Practice Question
      * */
-    public List<QuestionResponse> getPracticeQuestion(String type) {
-        System.out.println(type);
+    public QuestionsResponse getPracticeQuestion(String type) throws ResourceNotFoundException {
         List<PracticeQuestion> temQuestion = practiceQuestionRepository.findPracticeQuestionBy(type);
-        List<QuestionResponse> result = new ArrayList<>();
-
-        for (PracticeQuestion question : temQuestion) {
-            List<String> temOption = new ArrayList<>();
-            temOption.add(question.getOptionA());
-            temOption.add(question.getOptionB());
-            temOption.add(question.getOptionC());
-            temOption.add(question.getOptionD());
-
-            Collections.shuffle(temOption);
-
-            QuestionResponse qr = new QuestionResponse();
-            qr.setQuestionId(question.getPracticeQuestionId());
-            qr.setQuestion(question.getQuestion());
-            qr.setType(question.getType());
-            qr.setOptions(temOption);
-
-            result.add(qr);
+        if (temQuestion.isEmpty()) {
+            throw new ResourceNotFoundException("No certificate questions found for type: " + type);
         }
-        return result;
+        List<Question> collect = temQuestion.stream().map(q -> {
+            List<String> options = new ArrayList<>(List.of(
+                    q.getOptionA(),
+                    q.getOptionB(),
+                    q.getOptionC(),
+                    q.getOptionD()));
+
+            Collections.shuffle(options);
+
+            Question qr = new Question();
+            qr.setQuestion(q.getQuestion());
+            qr.setQuestionId(q.getPracticeQuestionId());
+            qr.setType(q.getType());
+            qr.setOptions(options);
+            return qr;
+
+        }).collect(Collectors.toList());
+        return new QuestionsResponse(collect, collect.size(), "Question Fetch Successfully", true);
+
     }
 
-    public boolean checkPracticeQuestion(String answer, Long id){
+    public AnswerResponse checkPracticeQuestion(String answer, Long id) throws ResourceNotFoundException {
         Optional<PracticeQuestion> pq = practiceQuestionRepository.findById(id);
-        PracticeQuestion temQuestion = pq.get();
-        if(temQuestion.getAnswer().equals(answer)){
-            return  true;
-        }
-        return false;
+        pq.orElseThrow(ResourceNotFoundException::new);
+
+        boolean correct = pq.get().getAnswer().equals(answer);
+        return new AnswerResponse("Answer Checked Successfully", correct, true);
     }
 
     public PracticeQuestion savePracticeQuestion(PracticeQuestion question){

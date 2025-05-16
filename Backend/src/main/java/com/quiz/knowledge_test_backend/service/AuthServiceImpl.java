@@ -1,37 +1,67 @@
 package com.quiz.knowledge_test_backend.service;
 
 import com.quiz.knowledge_test_backend.Exception.CommonException;
-import com.quiz.knowledge_test_backend.entity.User;
+import com.quiz.knowledge_test_backend.model.entity.User;
+import com.quiz.knowledge_test_backend.model.request.LoginRequest;
+import com.quiz.knowledge_test_backend.model.request.RegisterRequest;
+import com.quiz.knowledge_test_backend.model.response.AuthResponse;
 import com.quiz.knowledge_test_backend.repository.AuthRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.quiz.knowledge_test_backend.utility.JwtConfig;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    @Autowired
-    private AuthRepository authRepository;
+
+    private final AuthRepository authRepository;
+
+    private final JwtConfig jwtConfig;
+
+    private final ModelMapper mapper;
+
+    public AuthServiceImpl(AuthRepository authRepository, JwtConfig jwtConfig, ModelMapper mapper) {
+        this.authRepository = authRepository;
+        this.jwtConfig = jwtConfig;
+        this.mapper = mapper;
+    }
 
     @Override
-    public User signUp(User user) throws CommonException {
-        User isUserExist = authRepository.findByEmail(user.getEmail());
-        if (isUserExist != null) {
-            throw new CommonException("User is Already Exist!");
+    public AuthResponse signUp(RegisterRequest request) throws CommonException {
+        Optional<User> isUserExist = authRepository.findByEmail(request.getEmail());
+        if (isUserExist.isPresent()) {
+            throw new CommonException("User already exists!");
         }
-        return authRepository.save(user);
+        User user = mapper.map(request, User.class);
+        User save = authRepository.save(user);
+        String token= jwtConfig.generateToken(save.getEmail(), save.getRole());
+
+        AuthResponse response = mapper.map(save, AuthResponse.class);
+        response.setJwt(token);
+        response.setStatus(true);
+        response.setMessage("Registration Successfully");
+        return response;
+
 
     }
 
     @Override
-    public User login(String email, String password) throws CommonException {
-        User isUserExist = authRepository.findByEmail(email);
-        if (isUserExist == null) {
-            throw new CommonException("User Not Found!");
-        }
-        if (!password.equals(isUserExist.getPassword())) {
+    public AuthResponse login(LoginRequest loginRequest) throws CommonException {
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
+        Optional<User> isUserExist = authRepository.findByEmail(email);
+        isUserExist.orElseThrow(() -> new CommonException("User not found"));
+        if (!password.equals(isUserExist.get().getPassword())) {
             throw new CommonException("Password is incorrect!");
         }
-        return isUserExist;
+        String token= jwtConfig.generateToken(email, loginRequest.getRole());
 
+        AuthResponse response = mapper.map(isUserExist.get(), AuthResponse.class);
+        response.setJwt(token);
+        response.setStatus(true);
+        response.setMessage("Login Successfully");
+        return response;
     }
 }

@@ -83,13 +83,11 @@ const ExamPassed = () => {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `${
-            import.meta.env.VITE_API_URL
-          }/generate-certificate`,
+          `/path/v1/api/certification/generate-certificate`,
           {
             method: "get",
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: token,
             },
           }
         );
@@ -150,7 +148,7 @@ const ExamPassed = () => {
           </div>
           <p className="text-gray-400 ">
             You are successfully completed the quiz. Now you click on finish and
-            back to your home page OR Click on generate and view your
+            back to your home page Or Click on generate and view your
             Certificate.
           </p>
           <div className="flex justify-center items-center m-3">

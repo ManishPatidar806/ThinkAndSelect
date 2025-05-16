@@ -1,6 +1,6 @@
 package com.quiz.knowledge_test_backend.repository;
 
-import com.quiz.knowledge_test_backend.entity.PracticeQuestion;
+import com.quiz.knowledge_test_backend.model.entity.PracticeQuestion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

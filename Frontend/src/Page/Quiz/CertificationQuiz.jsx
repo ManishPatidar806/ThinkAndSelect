@@ -21,26 +21,23 @@ const CertificationQuiz = () => {
       const token = localStorage.getItem("token");
       const type = localStorage.getItem("type");
 
-      
       const response = await fetch(
-        `${
-          import.meta.env.VITE_API_URL
-        }/quiz/certificatequiz?type=${encodeURIComponent(
+        `/path/v1/api/quiz/question/certificatequiz?type=${encodeURIComponent(
           type
         )}`,
         {
           method: "get",
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: token,
           },
         }
       );
 
       if (response.ok) {
         const data = await response.json().then((data) => {
-         
+          console.log(data);
           setIsLoading(false);
-          setQuestion(data);
+          setQuestion(data.questions);
         });
       }
     };
@@ -59,22 +56,20 @@ const CertificationQuiz = () => {
     setIsLoading(true);
     const token = localStorage.getItem("token");
     const response = await fetch(
-      `${
-        import.meta.env.VITE_API_URL
-      }/quiz/checkcertificateanswer?answer=${encodeURIComponent(
+      `/path/v1/api/quiz/question/checkcertificateanswer?answer=${encodeURIComponent(
         checked
       )}&id=${encodeURIComponent(currentQuestion?.questionId)}`,
       {
         method: "get",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: token,
         },
       }
     );
 
-    const answer = await response.json();
+    const data = await response.json();
 
-    if (answer) {
+    if (data.answer) {
       setMarks((prevMarks) => prevMarks + 1);
     }
     setIsLoading(false);
