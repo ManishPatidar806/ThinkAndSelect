@@ -21,8 +21,7 @@ public class RegisterRequest {
     String place;
     @NotBlank(message = "Password must be valid")
     String password;
-    @NotNull(message = "Role must be Admin Or User")
-    Role role;
+
 
     String description;
 

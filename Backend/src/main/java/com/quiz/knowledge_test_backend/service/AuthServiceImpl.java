@@ -36,7 +36,7 @@ public class AuthServiceImpl implements AuthService {
         }
         User user = mapper.map(request, User.class);
         User save = authRepository.save(user);
-        String token= jwtConfig.generateToken(save.getEmail(), save.getRole());
+        String token= jwtConfig.generateToken(save.getEmail());
 
         AuthResponse response = mapper.map(save, AuthResponse.class);
         response.setJwt(token);
@@ -56,7 +56,7 @@ public class AuthServiceImpl implements AuthService {
         if (!password.equals(isUserExist.get().getPassword())) {
             throw new CommonException("Password is incorrect!");
         }
-        String token= jwtConfig.generateToken(email, loginRequest.getRole());
+        String token= jwtConfig.generateToken(email);
 
         AuthResponse response = mapper.map(isUserExist.get(), AuthResponse.class);
         response.setJwt(token);

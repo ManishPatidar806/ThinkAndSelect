@@ -16,8 +16,8 @@ public class JwtConfig {
     private final String SECRET_SENTENCE = "jladkf;sdalkfj;sdfj;asdjf;laksdjf;ldksajf;lksdjf;klasjflkvnsanvmcnvmxcnvmnjsfhdsufidsfn";
     public final Key SECRET_KEY = Keys.hmacShaKeyFor(SECRET_SENTENCE.getBytes());
 
-    public String generateToken(String email, Role role) {
-        return Jwts.builder().setSubject(email).claim("role", role).setIssuedAt(new Date())
+    public String generateToken(String email) {
+        return Jwts.builder().setSubject(email).setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 60)).
                 signWith(SECRET_KEY).compact();
 

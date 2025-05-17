@@ -22,8 +22,6 @@ public class User {
     String place;
     @Column(nullable = false)
     String password;
-    @Column(nullable = false)
-    Role role;
 
     String description;
 
