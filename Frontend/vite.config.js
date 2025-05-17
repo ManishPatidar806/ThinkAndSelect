@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         "/path": {
-          target: url,
+          target: "https://thinkandselectbackend.onrender.com",
           changeOrigin: true,
           rewrite: (p) => p.replace(/^\/path/, ""),
         },
