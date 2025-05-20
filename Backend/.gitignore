@@ -1,0 +1,41 @@
+# Java build directories
+target/
+build/
+
+# IDE-specific files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse project files
+.settings/
+.classpath
+.project
+
+# IntelliJ IDEA project files
+*.iml
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Maven wrapper
+.mvn/
+mvnw
+mvnw.cmd
+
+# Gradle wrapper
+gradle/
+gradlew
+gradlew.bat
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
