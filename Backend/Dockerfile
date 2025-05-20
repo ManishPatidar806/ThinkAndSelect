@@ -1,32 +1,26 @@
-# Stage 1: Build the application
-FROM maven:3.9.6-eclipse-temurin-21 AS build
+# Use OpenJDK 21 as the base image and install Maven manually
+FROM openjdk:21-slim AS build
+
+# Install Maven
+RUN apt-get update && \
+    apt-get install -y maven && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy Maven wrapper files
-COPY mvnw .
-COPY .mvn .mvn
 COPY pom.xml .
+RUN mvn dependency:go-offline
 
-# Convert line endings of mvnw to Unix-style
-RUN apt-get update && apt-get install -y dos2unix && dos2unix mvnw
-
-# Make mvnw executable
-RUN chmod +x mvnw
-
-# Pre-fetch dependencies
-RUN ./mvnw dependency:go-offline
-
-# Copy source and build
 COPY src ./src
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
-# Stage 2: Run the application
-FROM eclipse-temurin:21-jre
+# Use OpenJDK 21 for the runtime stage
+FROM openjdk:21-slim
 
 WORKDIR /app
 
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/target/Knowledge_test_backend-0.0.1-SNAPSHOT.jar .
 
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+ENTRYPOINT ["java", "-jar", "/app/Knowledge_test_backend-0.0.1-SNAPSHOT.jar"]
