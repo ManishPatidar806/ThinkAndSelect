@@ -14,7 +14,7 @@ This project is an innovative quiz application designed to support both practice
 - **Seamless User Experience** – Optimized for performance and responsiveness.
 
 ## Demo
-https://youtu.be/QJccMRBPc_U
+https://youtu.be/cx5X61UOtPA
 
 ## Tech Stack
 
