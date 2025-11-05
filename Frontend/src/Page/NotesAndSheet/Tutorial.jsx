@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import TutorialData from "../data/TutorialData";
 import Navbar from "../Home/Navbar";
+import Footer from "../Home/Footer";
 import Prevent from "../Auth/Prevent";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -15,8 +16,7 @@ import {
   Search,
   Filter,
   ExternalLink,
-  PlayCircle,
-  Video
+  PlayCircle
 } from "lucide-react";
 
 const Tutorial = () => {
@@ -52,13 +52,6 @@ const Tutorial = () => {
     return matchesSearch && matchesCategory;
   });
 
-  const stats = [
-    { icon: Video, value: "10+", label: "Courses", color: "text-red-600" },
-    { icon: Users, value: "50K+", label: "Students", color: "text-blue-600" },
-    { icon: Clock, value: "100+", label: "Hours", color: "text-green-600" },
-    { icon: Star, value: "4.9/5", label: "Rating", color: "text-yellow-600" }
-  ];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-purple-50">
       <Prevent />
@@ -69,30 +62,16 @@ const Tutorial = () => {
       </div>
 
       {/* Header Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-        <div className="text-center space-y-6 animate-fade-in">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="text-center space-y-4 animate-fade-in">
           {/* Title Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-100 to-orange-100 rounded-full border border-red-200">
             <Youtube className="w-4 h-4 text-red-600" />
             <span className="text-sm font-medium text-red-700">Video Tutorials</span>
           </div>
 
-          {/* Main Heading */}
-          <div className="space-y-4">
-            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
-              Learn Programming
-              <span className="block bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
-                Through Video Courses
-              </span>
-            </h1>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Curated collection of high-quality video tutorials from top YouTube channels. 
-              Learn programming concepts with hands-on examples and expert guidance.
-            </p>
-          </div>
-
           {/* Search and Filter Bar */}
-          <div className="max-w-2xl mx-auto pt-4 space-y-4">
+          <div className="max-w-2xl mx-auto space-y-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
@@ -123,30 +102,6 @@ const Tutorial = () => {
                 ))}
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Stats Section */}
-        <div className="mt-12 lg:mt-16">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((stat, index) => {
-              const IconComponent = stat.icon;
-              return (
-                <div 
-                  key={index} 
-                  className="glass-card rounded-2xl p-6 text-center space-y-3 hover:scale-105 transition-all duration-300 animate-slide-up"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-white to-gray-50 ${stat.color}`}>
-                    <IconComponent className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
-                    <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </div>
@@ -256,41 +211,10 @@ const Tutorial = () => {
             </div>
           </div>
         )}
-
-        {/* Call to Action */}
-        <div className="mt-16 text-center">
-          <div className="glass-card rounded-3xl p-8 lg:p-12 max-w-4xl mx-auto">
-            <div className="space-y-6">
-              <div className="space-y-4">
-                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900">
-                  Ready to Start Learning?
-                </h3>
-                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                  Combine video learning with hands-on practice. Test your knowledge with quizzes 
-                  and practice coding in our online compiler.
-                </p>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button 
-                  onClick={() => window.location.href = '/home'}
-                  className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                >
-                  <TrendingUp className="w-5 h-5" />
-                  Take Quiz
-                </button>
-                <button 
-                  onClick={() => window.location.href = '/editer'}
-                  className="bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-purple-300 px-8 py-4 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2"
-                >
-                  Practice Coding
-                  <ExternalLink className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

@@ -275,22 +275,11 @@ I'm ready to help you become a better programmer! 🚀`;
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Header */}
-        <div className="text-center mb-8 space-y-4">
+        <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-100 to-blue-100 rounded-full border border-emerald-200">
             <Bot className="w-4 h-4 text-emerald-600" />
             <span className="text-sm font-medium text-emerald-700">AI Assistant</span>
           </div>
-          
-          <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">
-            Programming
-            <span className="block bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
-              AI Chatbot
-            </span>
-          </h1>
-          
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Get instant help with programming questions, code debugging, and learning guidance from our AI assistant.
-          </p>
         </div>
 
         {/* Main Chat Interface */}
@@ -489,37 +478,7 @@ I'm ready to help you become a better programmer! 🚀`;
             </div>
           </div>
 
-          {/* Features Section */}
-          <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                icon: Brain,
-                title: "Smart AI Assistant",
-                description: "Advanced AI trained on programming concepts and best practices"
-              },
-              {
-                icon: Code2,
-                title: "Code Analysis", 
-                description: "Get help debugging, optimizing, and reviewing your code"
-              },
-              {
-                icon: Zap,
-                title: "Instant Responses",
-                description: "Get immediate answers to your programming questions"
-              }
-            ].map((feature, index) => {
-              const IconComponent = feature.icon;
-              return (
-                <div key={index} className="glass-card rounded-2xl p-6 text-center hover:scale-105 transition-all duration-300">
-                  <div className="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-emerald-100 to-blue-100 rounded-xl flex items-center justify-center">
-                    <IconComponent className="w-6 h-6 text-emerald-600" />
-                  </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                  <p className="text-sm text-gray-600">{feature.description}</p>
-                </div>
-              );
-            })}
-          </div>
+        
         </div>
       </div>
     </div>

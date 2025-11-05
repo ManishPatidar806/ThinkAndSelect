@@ -6,10 +6,7 @@ import {
   Code, 
   Brain, 
   Sparkles, 
-  Star, 
-  Users, 
   Award,
-  BookOpen,
   Zap
 } from "lucide-react";
 import Prevent from "../Auth/Prevent";
@@ -42,11 +39,7 @@ const Dashboard = () => {
     }
   ];
 
-  const stats = [
-    { icon: Users, value: "10K+", label: "Active Learners" },
-    { icon: BookOpen, value: "500+", label: "Practice Questions" },
-    { icon: Star, value: "4.8", label: "Average Rating" }
-  ];
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden">
@@ -117,18 +110,7 @@ const Dashboard = () => {
           ))}
         </div>
 
-        {/* Stats */}
-        <div className="flex flex-wrap justify-center gap-8 animate-fade-in">
-          {stats.map((stat, index) => (
-            <div key={index} className="text-center">
-              <div className="flex items-center justify-center mb-2">
-                <stat.icon className="w-6 h-6 text-purple-600 mr-2" />
-                <span className="text-3xl font-bold text-gray-800">{stat.value}</span>
-              </div>
-              <p className="text-gray-600 font-medium">{stat.label}</p>
-            </div>
-          ))}
-        </div>
+
       </div>
     </div>
   );

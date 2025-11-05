@@ -3,6 +3,7 @@ import { CODE_SNIPPETS, LANGUAGE_VERSIONS } from "../data/Constains";
 import { Editor } from "@monaco-editor/react";
 import Loading from "../Loading/Loading";
 import Navbar from "../Home/Navbar";
+import Footer from "../Home/Footer";
 import Prevent from "../Auth/Prevent";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -400,6 +401,9 @@ const Compiler = () => {
           </div>
         </div>
       </div>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

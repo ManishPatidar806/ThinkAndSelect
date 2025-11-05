@@ -1,6 +1,8 @@
 
 import { useNavigate } from "react-router-dom";
 import Prevent from "../Auth/Prevent";
+import Navbar from "../Home/Navbar";
+import Footer from "../Home/Footer";
 
 const Failed = () => {
   const score = localStorage.getItem("marks");
@@ -45,6 +47,9 @@ const Failed = () => {
           </div>
         </div>
       </div>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

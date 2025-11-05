@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import NotesData from "../data/NotesData";
 import Navbar from "../Home/Navbar";
+import Footer from "../Home/Footer";
 import Prevent from "../Auth/Prevent";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -8,9 +9,7 @@ import {
   Download, 
   ExternalLink, 
   FileText, 
-  Clock,
   Star,
-  Users,
   TrendingUp,
   ArrowRight,
   Search
@@ -33,12 +32,7 @@ const Notes = () => {
     note.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const stats = [
-    { icon: FileText, value: "8+", label: "Languages", color: "text-blue-600" },
-    { icon: Users, value: "5K+", label: "Downloads", color: "text-green-600" },
-    { icon: Star, value: "4.8/5", label: "Rating", color: "text-yellow-600" },
-    { icon: Clock, value: "24/7", label: "Access", color: "text-purple-600" }
-  ];
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
@@ -50,30 +44,16 @@ const Notes = () => {
       </div>
 
       {/* Header Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-        <div className="text-center space-y-6 animate-fade-in">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="text-center space-y-4 animate-fade-in">
           {/* Title Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-full border border-blue-200">
             <BookOpen className="w-4 h-4 text-blue-600" />
             <span className="text-sm font-medium text-blue-700">Study Materials</span>
           </div>
 
-          {/* Main Heading */}
-          <div className="space-y-4">
-            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
-              Programming
-              <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Notes & Resources
-              </span>
-            </h1>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Comprehensive study materials and reference notes for all major programming languages. 
-              Download, study, and master programming concepts at your own pace.
-            </p>
-          </div>
-
           {/* Search Bar */}
-          <div className="max-w-md mx-auto pt-4">
+          <div className="max-w-md mx-auto">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
@@ -84,30 +64,6 @@ const Notes = () => {
                 className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl bg-white/80 backdrop-blur-md focus:ring-2 focus:ring-purple-500/20 focus:border-purple-300 transition-all duration-200"
               />
             </div>
-          </div>
-        </div>
-
-        {/* Stats Section */}
-        <div className="mt-12 lg:mt-16">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((stat, index) => {
-              const IconComponent = stat.icon;
-              return (
-                <div 
-                  key={index} 
-                  className="glass-card rounded-2xl p-6 text-center space-y-3 hover:scale-105 transition-all duration-300 animate-slide-up"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-white to-gray-50 ${stat.color}`}>
-                    <IconComponent className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
-                    <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </div>
@@ -205,41 +161,10 @@ const Notes = () => {
             </div>
           </div>
         )}
-
-        {/* Call to Action */}
-        <div className="mt-16 text-center">
-          <div className="glass-card rounded-3xl p-8 lg:p-12 max-w-4xl mx-auto">
-            <div className="space-y-6">
-              <div className="space-y-4">
-                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900">
-                  Need More Resources?
-                </h3>
-                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                  Explore our interactive tutorials and practice your coding skills with our 
-                  online compiler for a complete learning experience.
-                </p>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button 
-                  onClick={() => window.location.href = '/tutorial'}
-                  className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                >
-                  <TrendingUp className="w-5 h-5" />
-                  View Tutorials
-                </button>
-                <button 
-                  onClick={() => window.location.href = '/editer'}
-                  className="bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-green-300 px-8 py-4 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2"
-                >
-                  Try Code Editor
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

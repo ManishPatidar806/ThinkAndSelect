@@ -55,7 +55,7 @@ const Quiz = [
     name: "Reactjs",
     type: "reactjs",
     description:
-      "Dart is a modern, object-oriented programming language by Google, designed for building web and mobile apps, particularly with Flutter.",
+      "React is a popular JavaScript library for building user interfaces, particularly for web applications. It allows developers to create reusable UI components and manage application state efficiently.",
   },
   {
     image: "https://res.cloudinary.com/dgmsfmeaz/image/upload/v1730296346/KnowledgeTest/QuizImage/vnzvbhgjxscjsa7flcjs.png",

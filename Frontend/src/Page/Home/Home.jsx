@@ -1,23 +1,43 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 import Data from "../data/QuizData";
 import Prevent from "../Auth/Prevent";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Trophy, Users, Code2, ArrowRight, Zap, Target, Award } from "lucide-react";
+import { BookOpen, Trophy, Users, Code2, ArrowRight, Zap, Target, Award, Search, X } from "lucide-react";
 
 const Home = () => {
   const navigate = useNavigate();
   const [userFullName] = useState(localStorage.getItem("fullname") || "Developer");
   const [animatedCards, setAnimatedCards] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState(Data);
 
   useEffect(() => {
     // Stagger card animations
     const timer = setTimeout(() => {
-      setAnimatedCards(Data.map((_, index) => index));
+      setAnimatedCards(filteredData.map((_, index) => index));
     }, 200);
     return () => clearTimeout(timer);
-  }, []);
+  }, [filteredData]);
+
+  // Filter data based on search query
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setFilteredData(Data);
+    } else {
+      const filtered = Data.filter(item =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredData(filtered);
+    }
+  }, [searchQuery]);
+
+  const clearSearch = () => {
+    setSearchQuery("");
+  };
 
   function executionPractice(type) {
     localStorage.removeItem("type");
@@ -31,13 +51,6 @@ const Home = () => {
     navigate("/certificationquiz");
   }
 
-  const stats = [
-    { icon: BookOpen, value: "8+", label: "Languages", color: "text-blue-600" },
-    { icon: Users, value: "10K+", label: "Students", color: "text-green-600" },
-    { icon: Trophy, value: "95%", label: "Success Rate", color: "text-yellow-600" },
-    { icon: Award, value: "50K+", label: "Certificates", color: "text-purple-600" }
-  ];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
       <Prevent />
@@ -49,8 +62,8 @@ const Home = () => {
 
       {/* Hero Section */}
       <div className="relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-          <div className="text-center space-y-8 animate-fade-in">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+          <div className="text-center animate-fade-in">
             {/* Welcome Message */}
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-100 to-blue-100 rounded-full border border-purple-200">
               <Zap className="w-4 h-4 text-purple-600" />
@@ -58,84 +71,55 @@ const Home = () => {
                 Welcome back, {userFullName}!
               </span>
             </div>
-
-            {/* Main Heading */}
-            <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                Master Programming
-                <span className="block bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                  One Quiz at a Time
-                </span>
-              </h1>
-              <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Challenge yourself with our comprehensive programming quizzes. Practice your skills, 
-                earn certifications, and become a better developer through hands-on learning.
-              </p>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-              <button 
-                onClick={() => navigate("/editer")}
-                className="group bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center gap-2"
-              >
-                <Code2 className="w-5 h-5" />
-                Try Code Editor
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button 
-                onClick={() => navigate("/tutorial")}
-                className="group bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-purple-300 px-8 py-4 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2"
-              >
-                <BookOpen className="w-5 h-5" />
-                View Tutorials
-              </button>
-            </div>
           </div>
+        </div>
+      </div>
 
-          {/* Stats Section */}
-          <div className="mt-16 lg:mt-24">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-              {stats.map((stat, index) => {
-                const IconComponent = stat.icon;
-                return (
-                  <div 
-                    key={index} 
-                    className="glass-card rounded-2xl p-6 text-center space-y-3 hover:scale-105 transition-all duration-300 animate-slide-up"
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-white to-gray-50 ${stat.color}`}>
-                      <IconComponent className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <div className="text-2xl lg:text-3xl font-bold text-gray-900">{stat.value}</div>
-                      <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
-                    </div>
-                  </div>
-                );
-              })}
+      {/* Search Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-gray-400" />
             </div>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="block w-full pl-12 pr-12 py-4 text-gray-900 bg-white border border-gray-200 rounded-2xl focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-400 text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+              placeholder="Search programming languages, topics, or technologies..."
+            />
+            {searchQuery && (
+              <button
+                onClick={clearSearch}
+                className="absolute inset-y-0 right-0 pr-4 flex items-center hover:text-gray-600 transition-colors"
+              >
+                <X className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+              </button>
+            )}
+          </div>
+          
+          {/* Search Results Info */}
+          <div className="mt-4 text-center">
+            <p className="text-gray-600">
+              {searchQuery ? (
+                filteredData.length > 0 ? (
+                  <>Found {filteredData.length} quiz{filteredData.length !== 1 ? 'es' : ''} matching "{searchQuery}"</>
+                ) : (
+                  <>No quizzes found matching "{searchQuery}"</>
+                )
+              ) : (
+                <></>
+              )}
+            </p>
           </div>
         </div>
       </div>
 
       {/* Quiz Cards Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="text-center mb-12 lg:mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-orange-100 to-red-100 rounded-full">
-            <Target className="w-4 h-4 text-orange-600" />
-            <span className="text-sm font-medium text-orange-700">Choose Your Challenge</span>
-          </div>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
-            Programming Languages & Technologies
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Test your knowledge across multiple programming languages and earn certificates
-          </p>
-        </div>
-
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 lg:pb-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
-          {Data.map((item, index) => (
+          {filteredData.map((item, index) => (
             <div
               key={index}
               className={`group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 ${
@@ -195,41 +179,31 @@ const Home = () => {
             </div>
           ))}
         </div>
-
-        {/* Bottom CTA Section */}
-        <div className="mt-16 lg:mt-20 text-center">
-          <div className="glass-card rounded-3xl p-8 lg:p-12 max-w-4xl mx-auto">
-            <div className="space-y-6">
-              <div className="space-y-4">
-                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900">
-                  Ready to Level Up Your Skills?
-                </h3>
-                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                  Join thousands of developers who are improving their programming skills through our 
-                  interactive quizzes and hands-on practice sessions.
+        
+        {/* No Results State */}
+        {filteredData.length === 0 && searchQuery && (
+          <div className="text-center py-16">
+            <div className="max-w-md mx-auto">
+              <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 border border-gray-200">
+                <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">No quizzes found</h3>
+                <p className="text-gray-600 mb-6">
+                  We couldn't find any quizzes matching "{searchQuery}". Try searching for different programming languages or topics.
                 </p>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button 
-                  onClick={() => navigate("/notes")}
-                  className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                <button
+                  onClick={clearSearch}
+                  className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105"
                 >
-                  <BookOpen className="w-5 h-5" />
-                  Study Notes
-                </button>
-                <button 
-                  onClick={() => navigate("/profile")}
-                  className="bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-green-300 px-8 py-4 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2"
-                >
-                  View Progress
-                  <ArrowRight className="w-4 h-4" />
+                  Clear Search
                 </button>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

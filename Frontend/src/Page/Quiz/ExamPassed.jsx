@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import ReactCanvasConfetti from "react-canvas-confetti";
 import Prevent from "../Auth/Prevent";
 import Loading from "../Loading/Loading";
+import Navbar from "../Home/Navbar";
+import Footer from "../Home/Footer";
 
 const canvasStyles = {
   position: "fixed",
@@ -209,6 +210,9 @@ const ExamPassed = () => {
       </div>
 
       <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
