@@ -12,6 +12,7 @@ import Signup from "./Page/Auth/Signup";
 
 import NotFound from "./Page/NotFound/NotFound";
 import ComingSoon from "./Page/CominSoon/CominSoon";
+import Chatbot from "./Page/Chatbot/Chatbot";
 import Result from "./Page/Quiz/Result";
 
 import CertificationQuiz from "./Page/Quiz/CertificationQuiz";
@@ -36,7 +37,7 @@ function App() {
             <Route path="/notes" element={[<Notes />]} />
             <Route path="/result" element={[<Result />]} />
             <Route path="/tutorial" element={<Tutorial />} />
-            <Route path="/chatbot" element={<ComingSoon />} />
+            <Route path="/chatbot" element={<Chatbot />} />
             <Route path="/profile" element={[<Profile />]} />
             <Route path="/editer" element={[<Compiler />]} />
             <Route path="/failed" element={<Failed />} />

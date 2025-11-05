@@ -8,7 +8,11 @@ export default defineConfig(() => {
     build: {
       outDir: "build",
     },
+    
     plugins: [react()],
+    server: {
+        port: 3000, // Or any other desired port
+      },
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),

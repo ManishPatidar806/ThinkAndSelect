@@ -35,3 +35,9 @@ pnpm-debug.log*
 
 # OS generated files
 Thumbs.db
+
+Frontend/.env
+Frontend/node_modules
+
+Backend/.env
+Backend/env.env

@@ -47,18 +47,40 @@ export default {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
-  			chart: {
-  				'1': 'hsl(var(--chart-1))',
-  				'2': 'hsl(var(--chart-2))',
-  				'3': 'hsl(var(--chart-3))',
-  				'4': 'hsl(var(--chart-4))',
-  				'5': 'hsl(var(--chart-5))'
+  			success: {
+  				DEFAULT: 'hsl(var(--success))',
+  				foreground: 'hsl(var(--success-foreground))'
+  			},
+  			warning: {
+  				DEFAULT: 'hsl(var(--warning))',
+  				foreground: 'hsl(var(--warning-foreground))'
+  			},
+  			info: {
+  				DEFAULT: 'hsl(var(--info))',
+  				foreground: 'hsl(var(--info-foreground))'
+  			}
+  		},
+  		fontFamily: {
+  			sans: ['Inter', 'system-ui', 'sans-serif'],
+  		},
+  		spacing: {
+  			'18': '4.5rem',
+  			'88': '22rem',
+  			'128': '32rem',
+  		},
+  		animation: {
+  			'fade-in': 'fadeIn 0.5s ease-in-out',
+  			'slide-up': 'slideUp 0.6s ease-out',
+  			'bounce-subtle': 'bounceSubtle 2s infinite',
+  		},
+  		keyframes: {
+  			bounceSubtle: {
+  				'0%, 100%': { transform: 'translateY(0)' },
+  				'50%': { transform: 'translateY(-5px)' },
   			}
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate"),
-	require('flowbite/plugin')
-  ],
+  plugins: [require("tailwindcss-animate"), require('flowbite/plugin')],
 }
 

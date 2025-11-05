@@ -2,130 +2,112 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading/MainLoading";
+import { Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [flag, setFlag] = useState(false);
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const url  = import.meta.env.VITE_API_URL;
+  const [showPassword, setShowPassword] = useState(false);
+  const [remember, setRemember] = useState(false);
+  const url = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (event) => {
-    setIsLoading(true);
     event.preventDefault();
+    setError("");
+    setIsLoading(true);
 
     const data = {
-      email: event.target.email.value,
+      email: event.target.email.value.trim(),
       password: event.target.password.value,
-      // role: event.target.role.value,
     };
-
-    
 
     try {
       const response = await fetch(`${url}/v1/api/user/signin`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
+      const responsedata = await response.json();
+
       if (!response.ok) {
         setIsLoading(false);
-        setFlag(true);
-        throw new Error("Network response was not ok");
+        setError(responsedata?.message || "Invalid credentials");
+        return;
       }
 
-      const responsedata = await response.json();
-      
       localStorage.setItem("token", `Bearer ${responsedata.jwt}`);
-      localStorage.setItem("fullname", responsedata.fullname);
-      localStorage.setItem("domain", responsedata.domain);
-      localStorage.setItem("place", responsedata.place);
-      localStorage.setItem("description", responsedata.description);
+      localStorage.setItem("fullname", responsedata.fullname || "");
+      localStorage.setItem("domain", responsedata.domain || "");
+      localStorage.setItem("place", responsedata.place || "");
+      localStorage.setItem("description", responsedata.description || "");
 
-      if (responsedata.jwt != null) {
-        navigate("/home");
-      } else {
-        setIsLoading(false);
-        setFlag(true);
+      if (remember) {
+        localStorage.setItem("remember", "1");
       }
-    } catch (error) {
+
       setIsLoading(false);
-      setFlag(true);
-      throw new Error(error);
+      navigate("/home");
+    } catch (err) {
+      setIsLoading(false);
+      setError(err?.message || "Network error, please try again");
+      console.error(err);
     }
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  if (isLoading) return <Loading />;
 
   return (
-    <div style={{ backgroundColor: "#EEF2FF" }} className="min-h-screen">
-      <div className=" py-40">
-        <div className="max-w-4xl mx-auto shadow-lg flex flex-col md:flex-row">
-          <div
-            className="hidden md:block w-1/2 bg-cover bg-center"
-            style={{
-              backgroundImage:
-                "url('https://res.cloudinary.com/dgmsfmeaz/image/upload/v1732387282/KnowledgeTest/ihbrodxnhb6u6kxbzs9h.jpg')",
-            }}
-          ></div>
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col w-full md:w-1/2 bg-white p-10 text-black"
-          >
-            <h2 className="text-center text-2xl mb-8">
-              <strong>Login</strong>
-            </h2>
-            <div className="mb-4">
-              <input
-                className="form-control w-full bg-[#f7f9fc] border-b border-[#dfe7f1] h-10 px-2 placeholder:text-gray-600"
-                type="email"
-                name="email"
-                placeholder="Email"
-                required
-              />
-              {flag && <div className="text-red-600">Enter valid Email</div>}
-            </div>
-            <div className="mb-4">
-              <input
-                className="form-control w-full bg-[#f7f9fc] border-b border-[#dfe7f1] h-10 px-2 placeholder:text-gray-600"
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-              />
-              {flag && <div className="text-red-600">Enter valid Password</div>}
-            </div>
-            {/* <div className="mb-4">
-              <select
-                name="role"
-                id="role"
-                className="form-control w-full bg-[#f7f9fc] border-b border-[#dfe7f1] h-10 px-2 placeholder:text-gray-600"
-                required
-              >
-                <option value="">Select Role</option>
-                <option value="USER">USER</option>
-                <option value="ADMIN">ADMIN</option>
-              </select>
-              {flag && <div className="text-red-600">Enter valid Role</div>}
-            </div> */}
-            <div className="mb-4">
-              <Button
-                className="btn btn-primary w-full text-white py-2 rounded  transition-transform active:translate-y-1 "
-                type="submit"
-              >
-                Login
-              </Button>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 flex items-center justify-center p-6">
+      <div className="w-full max-w-3xl">
+        <div className="glass-card rounded-3xl overflow-hidden modern-shadow-lg">
+          <div className="flex flex-col md:flex-row">
+            {/* Visual panel */}
+            <div className="hidden md:flex md:w-1/2 bg-cover bg-center" style={{ backgroundImage: "url('https://res.cloudinary.com/dgmsfmeaz/image/upload/v1732387282/KnowledgeTest/ihbrodxnhb6u6kxbzs9h.jpg')" }}>
             </div>
 
-            <a href="/signup" className="text-center text-sm text-blue-700 ">
-              You don't have an account? Click here.
-            </a>
-          </form>
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="w-full md:w-1/2 p-8 md:p-10">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">Sign in to your account</h2>
+                <p className="text-gray-600">Enter your credentials to continue</p>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="email" className="text-sm font-medium text-gray-700">Email address</label>
+                  <input id="email" name="email" type="email" required className="mt-1 w-full px-4 py-2 rounded-lg border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20" placeholder="you@domain.com" />
+                </div>
+
+                <div className="relative">
+                  <label htmlFor="password" className="text-sm font-medium text-gray-700">Password</label>
+                  <input id="password" name="password" type={showPassword ? 'text' : 'password'} required className="mt-1 w-full px-4 py-2 rounded-lg border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20" placeholder="Enter your password" />
+                  <button type="button" onClick={() => setShowPassword(s => !s)} className="absolute right-2 top-8 p-1 text-gray-500">
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <label className="flex items-center gap-2 text-sm">
+                    <input type="checkbox" checked={remember} onChange={() => setRemember(r => !r)} className="w-4 h-4" />
+                    Remember me
+                  </label>
+                  <a href="#" className="text-sm text-primary">Forgot password?</a>
+                </div>
+
+                {error && <div role="alert" className="text-sm text-red-600 bg-red-50 p-2 rounded">{error}</div>}
+
+                <Button type="submit" className="w-full py-3.5 font-semibold rounded-xl bg-primary text-white hover:shadow-lg" disabled={isLoading}>
+                  {isLoading ? 'Signing in...' : 'Sign In'}
+                </Button>
+              </div>
+
+              <div className="mt-6 text-center text-sm text-gray-600">
+                Don't have an account? <a href="/signup" className="text-primary font-medium">Create one</a>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
