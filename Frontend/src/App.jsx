@@ -31,13 +31,13 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Dashboard />} />
+        <Route path="/chatbot" element={<Chatbot />} />
         {token != null ? (
           <>
             <Route path="/home" element={[<Home />]} />
             <Route path="/notes" element={[<Notes />]} />
             <Route path="/result" element={[<Result />]} />
             <Route path="/tutorial" element={<Tutorial />} />
-            <Route path="/chatbot" element={<Chatbot />} />
             <Route path="/profile" element={[<Profile />]} />
             <Route path="/editer" element={[<Compiler />]} />
             <Route path="/failed" element={<Failed />} />

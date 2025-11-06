@@ -30,7 +30,7 @@ const Navbar = () => {
       icon: Video
     },
     {
-      name: "Chatbot",
+      name: "AI Assistant",
       path: "/chatbot",
       icon: MessageCircle
     },
