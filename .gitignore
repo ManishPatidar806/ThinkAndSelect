@@ -38,6 +38,7 @@ Thumbs.db
 
 Frontend/.env
 Frontend/node_modules
+Frontend/vercel.json
 
 Backend/.env
 Backend/env.env
