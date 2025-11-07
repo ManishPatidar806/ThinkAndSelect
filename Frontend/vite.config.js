@@ -11,7 +11,7 @@ export default defineConfig(() => {
     
     plugins: [react()],
     server: {
-        port: 3000, // Or any other desired port
+        port: 8000, // Or any other desired port
       },
     resolve: {
       alias: {
