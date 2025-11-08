@@ -26,7 +26,7 @@ const Footer = () => {
           <div className="space-y-6">
             <div className="space-y-4">
               <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                ThinkAndSelect
+                CYNTRO
               </h3>
               <p className="text-gray-600 leading-relaxed">
                 Empowering developers with interactive programming quizzes, comprehensive notes, and hands-on coding practice to master their skills.
@@ -36,7 +36,7 @@ const Footer = () => {
             {/* Social Links */}
             <div className="flex space-x-4">
               <a 
-                href="https://github.com/ManishPatidar806/ThinkAndSelect" 
+                href="https://github.com/ManishPatidar806/Cyntro" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="p-2 bg-white border border-gray-200 hover:bg-purple-50 hover:border-purple-300 text-gray-600 hover:text-purple-600 rounded-lg transition-all duration-300 group shadow-sm"
@@ -56,7 +56,7 @@ const Footer = () => {
                 <Twitter className="w-5 h-5 group-hover:scale-110 transition-transform" />
               </a>
               <a 
-                href="mailto:contact@thinkandselect.com" 
+                href="mailto:contact@cyntro.com" 
                 className="p-2 bg-white border border-gray-200 hover:bg-green-50 hover:border-green-300 text-gray-600 hover:text-green-600 rounded-lg transition-all duration-300 group shadow-sm"
               >
                 <Mail className="w-5 h-5 group-hover:scale-110 transition-transform" />
@@ -175,14 +175,7 @@ const Footer = () => {
               </li>
             </ul>
 
-            {/* Scroll to Top Button */}
-            <button
-              onClick={scrollToTop}
-              className=" text-white inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm font-medium"
-            >
-              <ArrowUp className="w-4 h-4" />
-              Back to Top
-            </button>
+          
           </div>
         </div>
 
@@ -194,7 +187,7 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-gray-600 text-sm">
-              © 2024 ThinkAndSelect. All rights reserved.
+              © 2024 Cyntro. All rights reserved.
             </div>
           
           </div>

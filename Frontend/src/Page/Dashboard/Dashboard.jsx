@@ -63,7 +63,7 @@ const Dashboard = () => {
 
           {/* Main Heading */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-purple-900 to-violet-900 bg-clip-text text-transparent leading-tight">
-            Think And Select
+            CYNTRO
           </h1>
           
           {/* Subheading */}
