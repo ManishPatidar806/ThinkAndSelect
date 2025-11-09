@@ -130,7 +130,7 @@ const Signup = () => {
                     required
                     onChange={(e) => setPasswordStrength(calcStrength(e.target.value))}
                     className="mt-1 w-full px-4 py-2 rounded-lg border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20"
-                    placeholder="Create a strong password"
+                    placeholder="Password"
                   />
                   <button type="button" onClick={() => setShowPassword(s => !s)} className="absolute right-2 top-8 p-1 text-gray-500">
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
