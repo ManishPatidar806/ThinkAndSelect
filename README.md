@@ -12,7 +12,7 @@
 
 **🚀 A comprehensive learning platform combining interactive quizzes, coding challenges, and educational resources**
 
-[Demo Video](https://youtu.be/cx5X61UOtPA) • [Live Demo](https://cyntro.vercel.app/) • [Documentation](#documentation)
+[Demo Video](https://youtu.be/rBKJJyNt6K4) • [Live Demo](https://cyntro.vercel.app/) • [Documentation](#documentation)
 
 </div>
 
